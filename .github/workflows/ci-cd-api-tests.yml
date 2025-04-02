@@ -1,33 +1,31 @@
 name: API Test Automation
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+on: [push, pull_request]
 
 jobs:
-  api-tests:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18  # Ensure compatibility
 
-      - name: Install Newman
-        run: npm install -g newman newman-reporter-html
+    - name: Install Newman & HTML Reporter
+      run: npm install -g newman newman-reporter-html
 
-      - name: Run API Tests
-        run: |
-          newman run Oyinuah-DelveApiTask9.postman_collection.json -r cli,html --reporter-html-export results.html
+    - name: Run API tests and generate report
+      run: |
+        mkdir -p test-results
+        newman run Oyinuah-DelveApiTask9.postman_collection.json \
+          -r cli,html --reporter-html-export test-results/results.html
 
-      - name: Upload Test Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-report
-          path: results.html
+    - name: Upload Test Report as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: api-test-report
+        path: test-results/results.html

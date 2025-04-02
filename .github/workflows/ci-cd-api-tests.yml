@@ -13,23 +13,36 @@ jobs:
     - name: Install Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 18  # Ensure compatibility
+        node-version: 18
 
-    - name: Install Newman & HTML Reporter
-      run: npm install -g newman newman-reporter-html
+    - name: Install Newman & Reporters
+      run: npm install -g newman newman-reporter-html newman-reporter-htmlextra
 
-    - name: Run API tests and generate report
+    - name: Verify Collection Exists
+      run: |
+        ls -la
+        if [ ! -f "Oyinuah-DelveApiTask9.postman_collection.json" ]; then
+          echo "❌ Error: Postman Collection file not found!"
+          exit 1
+        fi
+
+    - name: Run API tests
       run: |
         mkdir -p test-results
-        newman run Oyinuah-DelveApiTask9.postman_collection.json \
-          -r cli,html \
+        newman run "Oyinuah-DelveApiTask9.postman_collection.json" \
+          --global-var "baseurl=https://api.delve.fun" \
+          --reporters cli,html,htmlextra \
           --reporter-html-export test-results/results.html \
+          --reporter-htmlextra-export test-results/results-enhanced.html \
           --insecure \
-          --delay-request 1000 \  # Add delay between requests
-          --iteration-count 2     # Retry twice if failures occur
+          --delay-request 1000 \
+          --iteration-count 2 \
+          --verbose  # Show detailed request/response info
 
-    - name: Upload Test Report as Artifact
+    - name: Upload Test Reports
       uses: actions/upload-artifact@v4
       with:
-        name: api-test-report
-        path: test-results/results.html
+        name: api-test-reports
+        path: |
+          test-results/results.html
+          test-results/results-enhanced.html

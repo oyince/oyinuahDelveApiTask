@@ -30,7 +30,7 @@ jobs:
       run: |
         mkdir -p test-results
         newman run "Oyinuah-DelveApiTask9.postman_collection.json" \
-          --global-var "baseurl=https://api.delve.fun" \
+          --global-var "baseurl=https://staging.api.delve.fun" \
           --reporters cli,html,htmlextra \
           --reporter-html-export test-results/results.html \
           --reporter-htmlextra-export test-results/results-enhanced.html \

@@ -22,7 +22,11 @@ jobs:
       run: |
         mkdir -p test-results
         newman run Oyinuah-DelveApiTask9.postman_collection.json \
-          -r cli,html --reporter-html-export test-results/results.html --insecure
+          -r cli,html \
+          --reporter-html-export test-results/results.html \
+          --insecure \
+          --delay-request 1000 \  # Add delay between requests
+          --iteration-count 2     # Retry twice if failures occur
 
     - name: Upload Test Report as Artifact
       uses: actions/upload-artifact@v4

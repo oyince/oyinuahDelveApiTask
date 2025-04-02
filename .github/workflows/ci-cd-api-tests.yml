@@ -22,7 +22,7 @@ jobs:
       run: |
         mkdir -p test-results
         newman run Oyinuah-DelveApiTask9.postman_collection.json \
-          -r cli,html --reporter-html-export test-results/results.html
+          -r cli,html --reporter-html-export test-results/results.html --insecure
 
     - name: Upload Test Report as Artifact
       uses: actions/upload-artifact@v4

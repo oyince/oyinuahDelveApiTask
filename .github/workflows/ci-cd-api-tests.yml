@@ -34,8 +34,6 @@ jobs:
           --reporters cli,html,htmlextra \
           --reporter-html-export test-results/results.html \
           --reporter-htmlextra-export test-results/results-enhanced.html \
-          --insecure \
-          --delay-request 1000 \
           --iteration-count 2 \
           --verbose  # Show detailed request/response info
 

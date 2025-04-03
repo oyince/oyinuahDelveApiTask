@@ -1,0 +1,1164 @@
+{
+	"info": {
+		"_postman_id": "783c4282-a8b6-4168-ab71-39291e6dd192",
+		"name": "Oyinuah-DelveApiTask9",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42395308",
+		"_collection_link": "https://restless-shuttle-586259.postman.co/workspace/Stage_Nine~3d51fd9c-56c8-40e4-b994-e431d281ed09/collection/42395308-783c4282-a8b6-4168-ab71-39291e6dd192?action=share&source=collection_link&creator=42395308"
+	},
+	"item": [
+		{
+			"name": "Positive",
+			"item": [
+				{
+					"name": "UserRegistrationUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response body indicates user registered\", function () {\r",
+									"    pm.expect(response.message).to.include(\"created\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Lists of common English first and last names\r",
+									"const firstNames = [\r",
+									"    \"James\", \"Mary\", \"John\", \"Patricia\", \"Robert\", \"Jennifer\", \r",
+									"    \"Michael\", \"Linda\", \"William\", \"Elizabeth\", \"David\", \"Susan\", \r",
+									"    \"Joseph\", \"Margaret\", \"Charles\", \"Jessica\", \"Thomas\", \"Sarah\"\r",
+									"];\r",
+									"\r",
+									"const lastNames = [\r",
+									"    \"Smith\", \"Johnson\", \"Brown\", \"Taylor\", \"Wilson\", \"Davis\", \r",
+									"    \"Clark\", \"Lewis\", \"Walker\", \"Hall\", \"Allen\", \"Young\", \r",
+									"    \"King\", \"Wright\", \"Scott\", \"Green\", \"Adams\", \"Baker\"\r",
+									"];\r",
+									"\r",
+									"const languages = [\"English\", \"Spanish\", \"French\", \"German\", \"Chinese\", \"Italian\"];\r",
+									"const proficiencyLevels = [\"Beginner\", \"Intermediate\", \"Advanced\"];\r",
+									"\r",
+									"// Character sets for password\r",
+									"const lowercase = \"abcdefghijklmnopqrstuvwxyz\";\r",
+									"const uppercase = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\";\r",
+									"const specialChars = \"!@#$%^&*()_+-=[]{}|;:,.<>?\";\r",
+									"const numbers = \"0123456789\";\r",
+									"\r",
+									"// Function to pick a random item from an array or string\r",
+									"function getRandomItem(source) {\r",
+									"    return source[Math.floor(Math.random() * source.length)];\r",
+									"}\r",
+									"\r",
+									"// Generate random values\r",
+									"const firstName = getRandomItem(firstNames);\r",
+									"const lastName = getRandomItem(lastNames);\r",
+									"const randomNumber = Math.floor(Math.random() * 1000);\r",
+									"const randomEmail = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${randomNumber}@gmail.com`;\r",
+									"const randomName = `${firstName} ${lastName}`;\r",
+									"const primaryLanguage = getRandomItem(languages);\r",
+									"const targetLanguage = getRandomItem(languages.filter(lang => lang !== primaryLanguage));\r",
+									"const targetLanguageProficiency = getRandomItem(proficiencyLevels);\r",
+									"const accountType = \"user\";\r",
+									"\r",
+									"// Generate a random password\r",
+									"let randomPassword = [\r",
+									"    getRandomItem(lowercase),    // Ensure at least 1 lowercase\r",
+									"    getRandomItem(uppercase),    // Ensure at least 1 uppercase\r",
+									"    getRandomItem(specialChars), // Ensure at least 1 special character\r",
+									"    getRandomItem(numbers)       // Ensure at least 1 number\r",
+									"].join(\"\"); // Start with \"aB!1\"\r",
+									"\r",
+									"// Add 8 more random characters from all sets\r",
+									"const allChars = lowercase + uppercase + specialChars + numbers;\r",
+									"for (let i = 0; i < 8; i++) {\r",
+									"    randomPassword += getRandomItem(allChars);\r",
+									"}\r",
+									"\r",
+									"// Shuffle the password to randomize character positions\r",
+									"randomPassword = randomPassword.split('').sort(() => Math.random() - 0.5).join('');\r",
+									"\r",
+									"// Set environment variables\r",
+									"pm.environment.set(\"name\", randomName);\r",
+									"pm.environment.set(\"email\", randomEmail);\r",
+									"pm.environment.set(\"password\", randomPassword);\r",
+									"pm.environment.set(\"primary_language\", primaryLanguage);\r",
+									"pm.environment.set(\"target_language\", targetLanguage);\r",
+									"pm.environment.set(\"target_language_proficiency\", targetLanguageProficiency);\r",
+									"pm.environment.set(\"account_type\", accountType);\r",
+									"\r",
+									"// Log the values for debugging\r",
+									"console.log(\"Generated Name: \" + randomName);\r",
+									"console.log(\"Generated Email: \" + randomEmail);\r",
+									"console.log(\"Generated Password: \" + randomPassword);\r",
+									"console.log(\"Primary Language: \" + primaryLanguage);\r",
+									"console.log(\"Target Language: \" + targetLanguage);\r",
+									"console.log(\"Target Language Proficiency: \" + targetLanguageProficiency);\r",
+									"console.log(\"Account Type: \" + accountType);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"{{name}}\",\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\",\n  \"primary_language\": \"{{primary_language}}\",\n  \"target_language\": \"{{target_language}}\",\n  \"target_language_proficiency\": \"{{target_language_proficiency}}\",\n  \"account_type\": \"{{account_type}}\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/auth/sign_up",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"sign_up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserRegistrationAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response body indicates user registered\", function () {\r",
+									"    pm.expect(response.message).to.include(\"created\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Lists of common English first and last names\r",
+									"const firstNames = [\r",
+									"    \"James\", \"Mary\", \"John\", \"Patricia\", \"Robert\", \"Jennifer\", \r",
+									"    \"Michael\", \"Linda\", \"William\", \"Elizabeth\", \"David\", \"Susan\", \r",
+									"    \"Joseph\", \"Margaret\", \"Charles\", \"Jessica\", \"Thomas\", \"Sarah\"\r",
+									"];\r",
+									"\r",
+									"const lastNames = [\r",
+									"    \"Smith\", \"Johnson\", \"Brown\", \"Taylor\", \"Wilson\", \"Davis\", \r",
+									"    \"Clark\", \"Lewis\", \"Walker\", \"Hall\", \"Allen\", \"Young\", \r",
+									"    \"King\", \"Wright\", \"Scott\", \"Green\", \"Adams\", \"Baker\"\r",
+									"];\r",
+									"\r",
+									"const languages = [\"English\", \"Spanish\", \"French\", \"German\", \"Chinese\", \"Italian\"];\r",
+									"const proficiencyLevels = [\"Beginner\", \"Intermediate\", \"Advanced\"];\r",
+									"\r",
+									"// Character sets for password\r",
+									"const lowercase = \"abcdefghijklmnopqrstuvwxyz\";\r",
+									"const uppercase = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\";\r",
+									"const specialChars = \"!@#$%^&*()_+-=[]{}|;:,.<>?\";\r",
+									"const numbers = \"0123456789\";\r",
+									"\r",
+									"// Function to pick a random item from an array or string\r",
+									"function getRandomItem(source) {\r",
+									"    return source[Math.floor(Math.random() * source.length)];\r",
+									"}\r",
+									"\r",
+									"// Generate random values\r",
+									"const firstName = getRandomItem(firstNames);\r",
+									"const lastName = getRandomItem(lastNames);\r",
+									"const randomNumber = Math.floor(Math.random() * 1000);\r",
+									"const randomEmail = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${randomNumber}@gmail.com`;\r",
+									"const randomName = `${firstName} ${lastName}`;\r",
+									"const primaryLanguage = getRandomItem(languages);\r",
+									"const targetLanguage = getRandomItem(languages.filter(lang => lang !== primaryLanguage));\r",
+									"const targetLanguageProficiency = getRandomItem(proficiencyLevels);\r",
+									"const accountType = \"admin\";\r",
+									"\r",
+									"// Generate a random password\r",
+									"let randomPassword = [\r",
+									"    getRandomItem(lowercase),    // Ensure at least 1 lowercase\r",
+									"    getRandomItem(uppercase),    // Ensure at least 1 uppercase\r",
+									"    getRandomItem(specialChars), // Ensure at least 1 special character\r",
+									"    getRandomItem(numbers)       // Ensure at least 1 number\r",
+									"].join(\"\"); // Start with \"aB!1\"\r",
+									"\r",
+									"// Add 8 more random characters from all sets\r",
+									"const allChars = lowercase + uppercase + specialChars + numbers;\r",
+									"for (let i = 0; i < 8; i++) {\r",
+									"    randomPassword += getRandomItem(allChars);\r",
+									"}\r",
+									"\r",
+									"// Shuffle the password to randomize character positions\r",
+									"randomPassword = randomPassword.split('').sort(() => Math.random() - 0.5).join('');\r",
+									"\r",
+									"// Set environment variables\r",
+									"pm.environment.set(\"name\", randomName);\r",
+									"pm.environment.set(\"email\", randomEmail);\r",
+									"pm.environment.set(\"password\", randomPassword);\r",
+									"pm.environment.set(\"primary_language\", primaryLanguage);\r",
+									"pm.environment.set(\"target_language\", targetLanguage);\r",
+									"pm.environment.set(\"target_language_proficiency\", targetLanguageProficiency);\r",
+									"pm.environment.set(\"account_type\", accountType);\r",
+									"\r",
+									"// Log the values for debugging\r",
+									"console.log(\"Generated Name: \" + randomName);\r",
+									"console.log(\"Generated Email: \" + randomEmail);\r",
+									"console.log(\"Generated Password: \" + randomPassword);\r",
+									"console.log(\"Primary Language: \" + primaryLanguage);\r",
+									"console.log(\"Target Language: \" + targetLanguage);\r",
+									"console.log(\"Target Language Proficiency: \" + targetLanguageProficiency);\r",
+									"console.log(\"Account Type: \" + accountType);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"{{name}}\",\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\",\n  \"primary_language\": \"{{primary_language}}\",\n  \"target_language\": \"{{target_language}}\",\n  \"target_language_proficiency\": \"{{target_language_proficiency}}\",\n  \"account_type\": \"{{account_type}}\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/auth/sign_up",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"sign_up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserLoginWithValidCredentialsUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+									"//pm.test(\"Response contains tokens and user data\", () => {\r",
+									"    //const json = pm.response.json();\r",
+									"    //pm.expect(json.access_token).to.be.a(\"string\");\r",
+									"    //pm.collectionVariables.set(\"validAccessToken\", json.access_token)\r",
+									"//});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = \"susan.hall486@gmail.com\";\r",
+									"const password = \"!{AVX9y0aiS(\";\r",
+									"\r",
+									"// Store variables for use in the request\r",
+									"pm.environment.set(\"userEmail\", email);\r",
+									"pm.environment.set(\"userPassword\", password);\r",
+									"\r",
+									"console.log(`Generated email: ${email}`);\r",
+									"console.log(`Using password: ${password}`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{userEmail}}\",\n    \"password\": \"{{userPassword}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/auth/sign_in",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"sign_in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserLoginWithValidCredentialsAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+									"//pm.test(\"Response contains tokens and user data\", () => {\r",
+									"    //const json = pm.response.json();\r",
+									"    //pm.expect(json.access_token).to.be.a(\"string\");\r",
+									"    //pm.collectionVariables.set(\"validAccessToken\", json.access_token)\r",
+									"//});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = \"john.king126@gmail.com\";\r",
+									"const password = \"8L+kV)?{|Jt}\";\r",
+									"\r",
+									"// Store variables for use in the request\r",
+									"pm.environment.set(\"userEmail\", email);\r",
+									"pm.environment.set(\"userPassword\", password);\r",
+									"\r",
+									"console.log(`Generated email: ${email}`);\r",
+									"console.log(`Using password: ${password}`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{userEmail}}\",\n    \"password\": \"{{userPassword}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/auth/sign_in",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"sign_in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserForgotPasswordEmail",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = \"charles.clark810@gmail.com\";\r",
+									"\r",
+									"pm.environment.set(\"userEmail\", email);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{userEmail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/auth/forgot-password",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SubcribeNewLetter",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = \"oyinuahsimeni@gmial.com\";\r",
+									"\r",
+									"// Store variables for use in the request\r",
+									"pm.environment.set(\"email\", email);\r",
+									"\r",
+									"console.log(`Generated email: ${email}`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n      \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/newsletter/subscribe",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"newsletter",
+								"subscribe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unSubcribeNewLetter",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = \"oyinuahsimeni@gmial.com\";\r",
+									"\r",
+									"// Store variables for use in the request\r",
+									"pm.environment.set(\"email\", email);\r",
+									"\r",
+									"console.log(`Generated email: ${email}`);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/newsletter/unsubscribe",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"newsletter",
+								"unsubscribe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Objects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/v1/objects",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"objects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetQuests",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/quests",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"quests"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCharacters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/v1/characters",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"characters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response body indicates user registered\", function () {\r",
+									"    pm.expect(response.message).to.include(\"successfully\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe@gmail.com\",\r\n  \"message\": \"In the country of the blind, the one-eyed man is the king\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/contact",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBackgrounds",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/v1/backgrounds",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"backgrounds"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBackgroundWithID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseurl}}/api/v1/backgrounds/b013c45d-fcde-4561-aea5-830157ddd9a9",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"backgrounds",
+								"b013c45d-fcde-4561-aea5-830157ddd9a9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Negative",
+			"item": [
+				{
+					"name": "UserRegisterWithExistingCredential",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check if the status code is 400\r",
+									"pm.test(\"Status code is 422\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"// Parse the response body\r",
+									"//const response = pm.response.json();\r",
+									"\r",
+									"// Verify the error message\r",
+									"//pm.test(\"Response body indicates email is taken\", function () {\r",
+									"//    pm.expect(response.message.email[0]).to.equal(\"The email has already been taken.\");\r",
+									"//});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"name\": \"Elizabeth Adams\",\n\"email\": \"elizabeth.adams589@gmail.com\",\n\"password\": \"9y6AtED&[)Y)\",\n\"primary_language\": \"Spanish\",\n\"target_language\":\"Chinese\",\n\"target_language_proficiency\": \"Advanced\",\n\"account_type\": \"user\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/auth/sign_up",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"sign_up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserRegisterWithoutPassword",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Lists of common English first and last names\r",
+									"const firstNames = [\r",
+									"    \"James\", \"Mary\", \"John\", \"Patricia\", \"Robert\", \"Jennifer\", \r",
+									"    \"Michael\", \"Linda\", \"William\", \"Elizabeth\", \"David\", \"Susan\", \r",
+									"    \"Joseph\", \"Margaret\", \"Charles\", \"Jessica\", \"Thomas\", \"Sarah\"\r",
+									"];\r",
+									"\r",
+									"const lastNames = [\r",
+									"    \"Smith\", \"Johnson\", \"Brown\", \"Taylor\", \"Wilson\", \"Davis\", \r",
+									"    \"Clark\", \"Lewis\", \"Walker\", \"Hall\", \"Allen\", \"Young\", \r",
+									"    \"King\", \"Wright\", \"Scott\", \"Green\", \"Adams\", \"Baker\"\r",
+									"];\r",
+									"\r",
+									"const languages = [\"English\", \"Spanish\", \"French\", \"German\", \"Chinese\", \"Italian\"];\r",
+									"const proficiencyLevels = [\"Beginner\", \"Intermediate\", \"Advanced\"];\r",
+									"\r",
+									"// Character sets for password\r",
+									"const lowercase = \"abcdefghijklmnopqrstuvwxyz\";\r",
+									"const uppercase = \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\";\r",
+									"const specialChars = \"!@#$%^&*()_+-=[]{}|;:,.<>?\";\r",
+									"const numbers = \"0123456789\";\r",
+									"\r",
+									"// Function to pick a random item from an array or string\r",
+									"function getRandomItem(source) {\r",
+									"    return source[Math.floor(Math.random() * source.length)];\r",
+									"}\r",
+									"\r",
+									"// Generate random values\r",
+									"const firstName = getRandomItem(firstNames);\r",
+									"const lastName = getRandomItem(lastNames);\r",
+									"const randomNumber = Math.floor(Math.random() * 1000);\r",
+									"const randomEmail = `${firstName.toLowerCase()}.${lastName.toLowerCase()}${randomNumber}@gmail.com`;\r",
+									"const randomName = `${firstName} ${lastName}`;\r",
+									"const primaryLanguage = getRandomItem(languages);\r",
+									"const targetLanguage = getRandomItem(languages.filter(lang => lang !== primaryLanguage));\r",
+									"const targetLanguageProficiency = getRandomItem(proficiencyLevels);\r",
+									"const accountType = \"user\";\r",
+									"\r",
+									"// Set password as a single space\r",
+									"const emptyPassword = \" \";\r",
+									"\r",
+									"// Set environment variables\r",
+									"pm.environment.set(\"name\", randomName);\r",
+									"pm.environment.set(\"email\", randomEmail);\r",
+									"pm.environment.set(\"password\", emptyPassword);\r",
+									"pm.environment.set(\"primary_language\", primaryLanguage);\r",
+									"pm.environment.set(\"target_language\", targetLanguage);\r",
+									"pm.environment.set(\"target_language_proficiency\", targetLanguageProficiency);\r",
+									"pm.environment.set(\"account_type\", accountType);\r",
+									"\r",
+									"// Log the values for debugging\r",
+									"console.log(\"Generated Name: \" + randomName);\r",
+									"console.log(\"Generated Email: \" + randomEmail);\r",
+									"console.log(\"Password: '\" + emptyPassword + \"' (single space)\");\r",
+									"console.log(\"Primary Language: \" + primaryLanguage);\r",
+									"console.log(\"Target Language: \" + targetLanguage);\r",
+									"console.log(\"Target Language Proficiency: \" + targetLanguageProficiency);\r",
+									"console.log(\"Account Type: \" + accountType);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									"//const response = pm.response.json();\r",
+									"\r",
+									"//pm.test(\"Response body indicates that password field cannot be empty\", function () {\r",
+									"  //  pm.expect(response.message.password[0]).to.include(\"required\");\r",
+									"//});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"{{name}}\",\n  \"email\": \"{{email}}\",\n  //\"password\": \"{{emptyPassword}}\",\n  \"primary_language\": \"{{primary_language}}\",\n  \"target_language\": \"{{target_language}}\",\n  \"target_language_proficiency\": \"{{target_language_proficiency}}\",\n  \"account_type\": \"{{account_type}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/auth/sign_up",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"sign_up"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserLoginWithIncorrectPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"//const response = pm.response.json();\r",
+									"\r",
+									"//pm.test(\"Response body indicates credential is invalid\", function () {\r",
+									"  //  pm.expect(response.message.toLowerCase()).to.include(\"invalid\");\r",
+									"//});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = \"susan.hall486@gmail.com\";\r",
+									"const password = \"!{AVX9y0aiS)()\";\r",
+									"\r",
+									"// Store variables for use in the request\r",
+									"pm.environment.set(\"userEmail\", email);\r",
+									"pm.environment.set(\"userPassword\", password);\r",
+									"\r",
+									"console.log(`Generated email: ${email}`);\r",
+									"console.log(`Using password: ${password}`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{userEmail}}\",\n    \"password\": \"{{userPassword}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/auth/sign_in",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"sign_in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserLoginNonexistingCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});\r",
+									"//const response = pm.response.json();\r",
+									"\r",
+									"//pm.test(\"Response body indicates the credential has some issues\", function () {\r",
+									"//    pm.expect(response.message.toLowerCase()).to.include(\"invalid\");\r",
+									"//});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = \"ekeki@gmail.com\";\r",
+									"const password = \"P@ssword0\";\r",
+									"\r",
+									"// Store variables for use in the request\r",
+									"pm.environment.set(\"userEmail\", email);\r",
+									"pm.environment.set(\"userPassword\", password);\r",
+									"\r",
+									"console.log(`Generated email: ${email}`);\r",
+									"console.log(`Using password: ${password}`);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{userEmail}}\",\n    \"password\": \"{{userPassword}}\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/auth/sign_in",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"sign_in"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserForgotPasswordWithUnregisteredEmail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"//const response = pm.response.json();\r",
+									"\r",
+									"//pm.test(\"Response body indicates that the Email doesn't have an account\", function () {\r",
+									"//    pm.expect(response.message).to.include(\"doesn't exist\");\r",
+									"//});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const email = \"ekeki@gmail.com\";\r",
+									"\r",
+									"pm.environment.set(\"userEmail\", email);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{userEmail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/auth/forgot-password",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseurl",
+			"value": "https://staging.api.delve.fun",
+			"type": "default"
+		},
+		{
+			"key": "validAccessToken",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

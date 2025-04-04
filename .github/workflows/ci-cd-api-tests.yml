@@ -34,9 +34,6 @@ jobs:
           --reporters cli, html, htmlextra \
           --reporter-html-export test-results/results.html \
           --reporter-htmlextra-export test-results/results-enhanced.html \
-          --reporter-htmlextra-title "API Test Report" \
-          --reporter-htmlextra-showHeaders \
-          --reporter-htmlextra-showEnvironmentData \
           --iteration-count 2 \
           --verbose  # Show detailed request/response info
 

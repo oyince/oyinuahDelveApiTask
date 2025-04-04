@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "783c4282-a8b6-4168-ab71-39291e6dd192",
-		"name": "Oyinuah-DelveApiTask9",
+		"_postman_id": "48be8017-0579-43f4-82d8-b6525325ef27",
+		"name": "DelveStage9ApiTask",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "42395308",
-		"_collection_link": "https://restless-shuttle-586259.postman.co/workspace/Stage_Nine~3d51fd9c-56c8-40e4-b994-e431d281ed09/collection/42395308-783c4282-a8b6-4168-ab71-39291e6dd192?action=share&source=collection_link&creator=42395308"
+		"_collection_link": "https://restless-shuttle-586259.postman.co/workspace/Stage_Nine~3d51fd9c-56c8-40e4-b994-e431d281ed09/collection/42395308-48be8017-0579-43f4-82d8-b6525325ef27?action=share&source=collection_link&creator=42395308"
 	},
 	"item": [
 		{
@@ -452,6 +452,53 @@
 					"response": []
 				},
 				{
+					"name": "Contact",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response body indicates message was sent\", function () {\r",
+									"    pm.expect(response.message).to.include(\"has been sent\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe@gmail.com\",\r\n  \"message\": \"In the country of the blind, the one-eyed man is the king\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/contact",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"contact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "SubcribeNewLetter",
 					"event": [
 						{
@@ -476,7 +523,14 @@
 								"exec": [
 									"pm.test(\"Status code is 201\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
-									"});"
+									"});\r",
+									"\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response body indicates that subscription was successful\", function () {\r",
+									"    pm.expect(response.message).to.include(\"Success\");\r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -524,6 +578,24 @@
 									"\r",
 									"console.log(`Generated email: ${email}`);\r",
 									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response body indicates that email unsubscribed successfully\", function () {\r",
+									"    pm.expect(response.message).to.include(\"unsubscribed\");\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -637,6 +709,27 @@
 				},
 				{
 					"name": "GetCharacters",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Created and updated timestamps are present\", function () {\r",
+									"    var character = pm.response.json().data[\"0\"];\r",
+									"    pm.expect(character.created_at).to.be.a(\"string\");\r",
+									"    pm.expect(character.updated_at).to.be.a(\"string\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -655,60 +748,16 @@
 					"response": []
 				},
 				{
-					"name": "Contact",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 201\", function () {\r",
-									"    pm.response.to.have.status(201);\r",
-									"});\r",
-									"const response = pm.response.json();\r",
-									"\r",
-									"pm.test(\"Response body indicates user registered\", function () {\r",
-									"    pm.expect(response.message).to.include(\"successfully\");\r",
-									"});"
-								],
-								"type": "text/javascript",
-								"packages": {}
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"John Doe\",\r\n  \"email\": \"johndoe@gmail.com\",\r\n  \"message\": \"In the country of the blind, the one-eyed man is the king\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseurl}}/api/v1/contact",
-							"host": [
-								"{{baseurl}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"contact"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "getBackgrounds",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));"
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -734,6 +783,20 @@
 				},
 				{
 					"name": "getBackgroundWithID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -747,6 +810,90 @@
 								"v1",
 								"backgrounds",
 								"b013c45d-fcde-4561-aea5-830157ddd9a9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UserSubscriptionCheckout",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// Set variables for the subscription checkout request",
+									"pm.environment.set(\"selectedPlan\", \"Basic\"); // Example: Selected subscription plan",
+									"pm.environment.set(\"selectedDuration\", \"Monthly\"); // Example: Selected subscription duration",
+									"",
+									"// Log the selected plan and duration for debugging (optional)",
+									"console.log(\"Preparing to checkout with plan:\", pm.environment.get(\"selectedPlan\"));",
+									"console.log(\"Selected duration:\", pm.environment.get(\"selectedDuration\"));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Parse the response body",
+									"var jsonData = pm.response.json();",
+									"",
+									"// Check if the response indicates an error (status_code 400)",
+									"if (jsonData.status_code === 400) {",
+									"    console.log(\"Checkout failed:\", jsonData.message.join(\", \")); // Log all error messages",
+									"",
+									"    // Specific handling for plan and duration errors",
+									"    if (jsonData.message.includes(\"plan must be\")) {",
+									"        console.log(\"Error: Invalid plan selected. Please choose from: Basic, Individual, Duo, Family.\");",
+									"    }",
+									"    if (jsonData.message.includes(\"duration must be\")) {",
+									"        console.log(\"Error: Invalid duration selected. Please choose from: Monthly, Yearly.\");",
+									"    }",
+									"} else {",
+									"    console.log(\"Checkout process completed successfully.\");",
+									"    // Handle successful response if applicable",
+									"}",
+									"",
+									"pm.test(\"Response time is within acceptable range\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									"pm.test(\"Response time is within acceptable range\", function () {",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"plan\": \"{{selectedPlan}}\",\n    \"duration\": \"{{selectedDuration}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseurl}}/api/v1/subscriptions/checkout",
+							"host": [
+								"{{baseurl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"subscriptions",
+								"checkout"
 							]
 						}
 					},
@@ -765,17 +912,15 @@
 							"script": {
 								"exec": [
 									"// Check if the status code is 400\r",
-									"pm.test(\"Status code is 422\", function () {\r",
+									"pm.test(\"Status code is 400\", function () {\r",
 									"    pm.response.to.have.status(400);\r",
 									"});\r",
 									"\r",
-									"// Parse the response body\r",
-									"//const response = pm.response.json();\r",
+									"const response = pm.response.json();\r",
 									"\r",
-									"// Verify the error message\r",
-									"//pm.test(\"Response body indicates email is taken\", function () {\r",
-									"//    pm.expect(response.message.email[0]).to.equal(\"The email has already been taken.\");\r",
-									"//});"
+									"pm.test(\"Response body indicates email is taken\", function () {\r",
+									"    pm.expect(response.message).to.include(\"exists\");\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -886,12 +1031,12 @@
 									"pm.test(\"Status code is 400\", function () {\r",
 									"    pm.response.to.have.status(400);\r",
 									"});\r",
-									"//const response = pm.response.json();\r",
 									"\r",
-									"//pm.test(\"Response body indicates that password field cannot be empty\", function () {\r",
-									"  //  pm.expect(response.message.password[0]).to.include(\"required\");\r",
-									"//});\r",
-									""
+									"const response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response body indicates that password field cannot be empty\", function () {\r",
+									"    pm.expect(response.message.join(\" \")).to.match(/not be empty/);\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -941,11 +1086,11 @@
 									"pm.test(\"Status code is 401\", function () {\r",
 									"    pm.response.to.have.status(401);\r",
 									"});\r",
-									"//const response = pm.response.json();\r",
+									"const response = pm.response.json();\r",
 									"\r",
-									"//pm.test(\"Response body indicates credential is invalid\", function () {\r",
-									"  //  pm.expect(response.message.toLowerCase()).to.include(\"invalid\");\r",
-									"//});"
+									"pm.test(\"Response body indicates credential is invalid\", function () {\r",
+									"    pm.expect(response.message).to.include(\"Invalid\");\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1007,11 +1152,11 @@
 									"pm.test(\"Status code is 401\", function () {\r",
 									"    pm.response.to.have.status(401);\r",
 									"});\r",
-									"//const response = pm.response.json();\r",
+									"const response = pm.response.json();\r",
 									"\r",
-									"//pm.test(\"Response body indicates the credential has some issues\", function () {\r",
-									"//    pm.expect(response.message.toLowerCase()).to.include(\"invalid\");\r",
-									"//});"
+									"pm.test(\"Response body indicates the credential has some issues\", function () {\r",
+									"    pm.expect(response.message).to.include(\"Invalid\");\r",
+									"});"
 								],
 								"type": "text/javascript",
 								"packages": {}
@@ -1073,11 +1218,11 @@
 									"pm.test(\"Status code is 404\", function () {\r",
 									"    pm.response.to.have.status(404);\r",
 									"});\r",
-									"//const response = pm.response.json();\r",
+									"const response = pm.response.json();\r",
 									"\r",
-									"//pm.test(\"Response body indicates that the Email doesn't have an account\", function () {\r",
-									"//    pm.expect(response.message).to.include(\"doesn't exist\");\r",
-									"//});\r",
+									"pm.test(\"Response body indicates that the Email doesn't have an account\", function () {\r",
+									"    pm.expect(response.message).to.include(\"does not exist\");\r",
+									"});\r",
 									""
 								],
 								"type": "text/javascript",

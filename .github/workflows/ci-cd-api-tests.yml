@@ -36,7 +36,6 @@ jobs:
           --reporter-htmlextra-export test-results/results-enhanced.html \
           --reporter-json-export test-results/results.json \
           --iteration-count 2 \
-          --insecure \
           --verbose
 
     - name: Upload Test Reports

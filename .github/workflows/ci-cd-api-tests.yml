@@ -31,16 +31,19 @@ jobs:
         mkdir -p test-results
         newman run "Oyinuah-DelveApiTask9.postman_collection.json" \
           --global-var "baseurl=https://staging.api.delve.fun" \
-          --reporters cli, html, htmlextra \
+          --reporters cli,html,htmlextra,json \
           --reporter-html-export test-results/results.html \
           --reporter-htmlextra-export test-results/results-enhanced.html \
+          --reporter-json-export test-results/results.json \
           --iteration-count 2 \
-          --verbose  # Show detailed request/response info
+          --insecure \
+          --verbose
 
     - name: Upload Test Reports
       uses: actions/upload-artifact@v4
-      with:
+       with:
         name: api-test-reports
         path: |
           test-results/results.html
           test-results/results-enhanced.html
+          test-results/results.json

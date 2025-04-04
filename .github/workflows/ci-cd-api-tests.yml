@@ -31,9 +31,11 @@ jobs:
         mkdir -p test-results
         newman run "Oyinuah-DelveApiTask9.postman_collection.json" \
           --global-var "baseurl=https://staging.api.delve.fun" \
-          --reporters cli,html,htmlextra \
-          --reporter-html-export test-results/results.html \
+          --reporters cli, htmlextra \
           --reporter-htmlextra-export test-results/results-enhanced.html \
+          --reporter-htmlextra-title "API Test Report" \
+          --reporter-htmlextra-showHeaders \
+          --reporter-htmlextra-showEnvironmentData \
           --iteration-count 2 \
           --verbose  # Show detailed request/response info
 

@@ -46,3 +46,11 @@ jobs:
           test-results/results.html
           test-results/results-enhanced.html
           test-results/results.json
+
+    - name: Run Cleanup Folder
+      run: |
+        echo "⚠️ Running cleanup folder..."
+        newman run "Oyinuah-DelveApiTask9.postman_collection.json" \
+          --folder "Cleanup" \
+          --global-var "baseurl=https://staging.api.delve.fun" \
+          --reporters cli

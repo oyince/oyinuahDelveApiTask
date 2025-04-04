@@ -41,7 +41,7 @@ jobs:
 
     - name: Upload Test Reports
       uses: actions/upload-artifact@v4
-       with:
+      with:
         name: api-test-reports
         path: |
           test-results/results.html
